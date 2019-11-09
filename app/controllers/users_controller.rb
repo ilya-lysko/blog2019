@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :check_edit, only: [:edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -70,5 +71,9 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:login, :password, :password_confirmation, :admin)
+    end
+
+    def check_edit
+      redirect_to users_path, notice: 'Доступ запрещён' if !@user.edit_by?(@current_user)
     end
 end

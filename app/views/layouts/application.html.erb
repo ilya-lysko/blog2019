@@ -10,7 +10,18 @@
   </head>
 
   <body>
-    <%= session[:user_id] %>
+    <% flash.each do |key, val| %>
+      <p class='notice'>
+        <%= val %>
+      </p>
+    <% end %>
+    <%if @current_user%>
+      <%= "Здравствуйте, #{@current_user.login}!" %>
+      <%= link_to 'Выйти', logout_path %>
+    <%else%>
+      <%= link_to 'Войти', login_path %>
+      <%= link_to 'Зарегистрироваться', new_user_path %>
+    <%end%>
     <%= yield %>
   </body>
 </html>

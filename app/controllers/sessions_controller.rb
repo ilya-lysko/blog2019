@@ -17,4 +17,9 @@ class SessionsController < ApplicationController
       render :new
     end
   end
+
+  def destroy
+    session.delete(:user_id)
+    redirect_to posts_path
+  end
 end
