@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
-
+  before_action :check_edit, only: [:edit, :update, :destroy]
+  
   # GET /posts
   # GET /posts.json
   def index
@@ -72,5 +73,10 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require(:post).permit(:author, :body, :title)
+    end
+
+    # Checking permissions of current user for control post object
+    def check_edit
+      redirect_to(posts_path, notice: 'Доступ запрещён') unless @post.edit_by?(@current_user)
     end
 end
